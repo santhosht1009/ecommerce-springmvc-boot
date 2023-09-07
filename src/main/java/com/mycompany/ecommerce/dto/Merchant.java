@@ -2,16 +2,20 @@ package com.mycompany.ecommerce.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 @Entity
+@Component
 public class Merchant {
 	@Id
 	@GeneratedValue(generator = "merchant_id")
@@ -21,9 +25,10 @@ public class Merchant {
 	private String name;
 	@Email(message = "Email Format is Not Correct")
 	private String email;
-	@Size(max = 10, message = "Number Should be 10 Digits")
+//	@Size(max = 10, message = "Number Should be 10 Digits")
 	private long mobile;
 	private String password;
 	private String gender;
+	@Past(message = "Date Must Not be Todays or Futures Date")
 	private LocalDate dob;
 }
