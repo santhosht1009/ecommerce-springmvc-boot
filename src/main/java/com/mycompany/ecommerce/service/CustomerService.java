@@ -94,13 +94,24 @@ else
 	public String login(LoginHelper loginHelper,ModelMap modelMap) {
 	Customer customer=customerDao.fetchByEmail(loginHelper.getEmail());
 	if(customer!=null) {
+		if(customer.isStatus())
+		{
+		
 		if(loginHelper.getPassword().equals(customer.getPassword())) {
 			return "Home";
 		}else {
 			modelMap.put("neg", "Password is not matching");
 			return "Customer";
+		}}else
+		{
+			modelMap.put("neg", "Account is Not Verified");
+			mailHelper.sendOtp(customer);
+			modelMap.put("id", customer.getId());
+			return "VerifyOtp1";
 		}
 			
+	
+	
 	}else {
 		modelMap.put("neg", "Email is not Present");
 		return "Customer";
