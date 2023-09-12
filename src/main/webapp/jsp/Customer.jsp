@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    <%@ taglib prefix="x" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,9 @@
 </head>
 <body>
 <h1>This is Customer Page</h1>
-	<form>
+<h1 style="color:green;">${pos}</h1>
+<h1 style="color:red;">${neg}</h1>
+	<form action="/customer/login"method="post">
 		<fieldset>
 			<legend>Login Here,</legend>
 			<table>

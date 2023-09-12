@@ -10,6 +10,7 @@
 <body>
 	<h1>Customer Signup</h1>
 	
+	<h1 style="color: red">${neg}</h1>
 	<x:form action="/customer/signup" method="post" modelAttribute="customer">
 		<fieldset>
 			<legend>Signup Here,</legend>
@@ -17,41 +18,41 @@
 				<tr>
 					<th>Name:</th>
 				
-					<th><x:input path="name" required="required"/></th>
-					<th><x:errors path="name"/></th>
+					<th><x:input path="name"/></th>
+					<th><span style="color: red"><x:errors path="name"/></span></th>
 				</tr>
 				<tr>
 					<th>Mobile:</th>
 			
-					<th><x:input type="tel" path="mobile" pattern="[0-9]{10}"
-						required="required"/></th>
-						<th><x:errors path="mobile"/></th>
+					<th><x:input type="number" path="mobile" 
+						/></th>
+						<th><span style="color: red"><x:errors path="mobile"/></span></th>
 				</tr>
 				<tr>
 					<th>Email:</th>
 			
-					<th><x:input type="email" path="email" required="required"/></th>
-					<th><x:errors path="email"/></th>
+					<th><x:input type="email" path="email"/></th>
+					<th><span style="color: red"><x:errors path="email"/></span></th>
 				</tr>
 				<tr>
 					<th>Password:</th>
 					
-					<th><x:password path="password" required="required"/></th>
-					<th><x:errors path="password"/></th>
+					<th><x:password path="password" /></th>
+					<th><span style="color: red"><x:errors path="password"/></span></th>
 				</tr>
 				<tr>
 					<th>Date of Birth:</th>
 				
-					<th><x:input type="date" path="dob" required="required"/></th>
-					<th><x:errors path="dob"/></th>
+					<th><x:input type="date" path="dob"/></th>
+					<th><span style="color: red"><x:errors path="dob"/></span></th>
 				</tr>
 				<tr>
 					<th>Gender:</th>
 				
 					<th><x:radiobutton path="gender" value="male"
-						required="required"/>Male <x:radiobutton path="gender"
+						/>Male <x:radiobutton path="gender"
 						value="female"/>Female</th>
-						<th><x:errors path="gender"/></th>
+						<th><span style="color: red"><x:errors path="gender"/></span></th>
 				</tr>
 				<tr>
 					<th><button>Signup</button></th>
