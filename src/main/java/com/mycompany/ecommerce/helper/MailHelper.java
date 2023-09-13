@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.mycompany.ecommerce.dto.Admin;
 import com.mycompany.ecommerce.dto.Customer;
 import com.mycompany.ecommerce.dto.Merchant;
 
@@ -48,4 +49,22 @@ public class MailHelper {
 		}
 
 	}
+	
+	public void sendOtp(Admin admin) {
+		MimeMessage mimeMessage=mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper=new MimeMessageHelper(mimeMessage);
+
+		try {
+			messageHelper.setTo(admin.getAdminEmail());
+			messageHelper.setFrom("E-Commerce");
+			messageHelper.setSubject("OTP Verification For Admin Login");
+			String body="<h1 style='color:blue'>Hello "+admin.getAdminName()+",<br>Your Otp is : "+admin.getOtp()+"</h1>";
+			messageHelper.setText(body,true);
+			mailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
 }

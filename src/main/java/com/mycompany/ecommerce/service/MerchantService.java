@@ -30,7 +30,7 @@ public String signup(Merchant merchant, ModelMap modelMap) {
 		merchantDao.save(merchant);
 		mailHelper.sendOtp(merchant);
 		modelMap.put("id", merchant.getId());
-		return "VerifyOtp1";
+		return "VerifyOtp";
 	} else {
 		if (merchant1 != null) {
 			if (merchant1.isStatus()) {
@@ -55,7 +55,7 @@ public String signup(Merchant merchant, ModelMap modelMap) {
 
 public String verifyOtp(int userid, int otp, ModelMap modelMap) {
 	Merchant merchant=merchantDao.findById(userid);
-	
+	System.out.println(merchant);
 	if(merchant==null)
 	{modelMap.put("neg", "Something went wrong");
 		return "Main";
@@ -82,11 +82,20 @@ public String verifyOtp(int userid, int otp, ModelMap modelMap) {
 public String login(LoginHelper loginHelper,ModelMap modelMap) {
 Merchant merchant=merchantDao.fetchByEmail(loginHelper.getEmail());
 if(merchant!=null) {
+	if(merchant.isStatus())
+	{
+	
 	if(loginHelper.getPassword().equals(merchant.getPassword())) {
-		return "Home";
+		return "MerchantHome";
 	}else {
 		modelMap.put("neg", "Password is not matching");
 		return "Merchant";
+	}}else
+	{
+		modelMap.put("neg", "Account is Not Verified! Otp Sent to Your Email to Verify");
+		mailHelper.sendOtp(merchant);
+		modelMap.put("id", merchant.getId());
+		return "VerifyOtp";
 	}
 		
 }else {

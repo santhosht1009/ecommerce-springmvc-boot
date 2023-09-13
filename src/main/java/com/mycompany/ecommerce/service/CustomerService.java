@@ -98,13 +98,13 @@ else
 		{
 		
 		if(loginHelper.getPassword().equals(customer.getPassword())) {
-			return "Home";
+			return "CustomerHome";
 		}else {
 			modelMap.put("neg", "Password is not matching");
 			return "Customer";
 		}}else
 		{
-			modelMap.put("neg", "Account is Not Verified");
+			modelMap.put("neg", "Account is Not Verified! Otp Sent to Your Email to Verify");
 			mailHelper.sendOtp(customer);
 			modelMap.put("id", customer.getId());
 			return "VerifyOtp1";
