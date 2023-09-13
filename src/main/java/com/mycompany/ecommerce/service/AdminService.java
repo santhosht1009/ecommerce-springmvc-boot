@@ -24,13 +24,13 @@ MailHelper mailHelper;
 		
 		Admin admin=adminDao.fetchByEmail(loginHelper.getEmail());
 		if(admin!=null) {
-		if(loginHelper.getPassword().equals(admin.getAdminPassword()))
+		if(loginHelper.getPassword().equals(admin.getPassword()))
 		{	
 			int otp = new Random().nextInt(100000, 999999);
 			admin.setOtp(otp);
 			adminDao.save(admin);
 			mailHelper.sendOtp(admin);
-			modelMap.put("adminid", admin.getId());
+			modelMap.put("id", admin.getId());
 			return "VerifyOtp2";
 			}else {
 			modelMap.put("neg", "Password is not matching");
@@ -46,8 +46,8 @@ MailHelper mailHelper;
 	}
 
 
-	public String verifyOtp(int adminid, int otp, ModelMap modelMap) {
-		Admin admin=adminDao.findById(adminid);
+	public String verifyOtp(int id, int otp, ModelMap modelMap) {
+		Admin admin=adminDao.findById(id);
 		
 		if(admin==null)
 		{modelMap.put("neg", "Something went wrong");
@@ -62,7 +62,7 @@ MailHelper mailHelper;
 				}else
 				{
 					modelMap.put("neg", "Enter Otp is Not Matching");
-					modelMap.put("adminid", adminid);
+					modelMap.put("id", id);
 					return "VerifyOtp2";
 				}
 				

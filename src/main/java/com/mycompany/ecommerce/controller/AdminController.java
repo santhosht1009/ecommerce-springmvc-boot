@@ -32,8 +32,8 @@ public class AdminController {
 	}
 	
 	@GetMapping("/verifyotp")
-	public String verifyOtp(@RequestParam int adminid,@RequestParam int otp,ModelMap modelMap) {
-	return adminService.verifyOtp(adminid,otp,modelMap);
+	public String verifyOtp(@RequestParam int id,@RequestParam int otp,ModelMap modelMap) {
+	return adminService.verifyOtp(id,otp,modelMap);
 		
 	}
 }

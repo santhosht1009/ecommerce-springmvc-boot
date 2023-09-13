@@ -6,7 +6,7 @@ import com.mycompany.ecommerce.dto.Admin;
 import com.mycompany.ecommerce.dto.Customer;
 
 public interface AdminRepository extends JpaRepository<Admin, Integer>{
-	Admin findByEmail(String adminEmail);
+	public Admin findByEmail(String email);
 
 
 }

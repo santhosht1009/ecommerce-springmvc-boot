@@ -7,13 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Enter Otp</h1>
-<h1 style="color: red">${neg}</h1>
-<form action="/admin/verifyotp">
-<input type="hidden" value=${id} name="id">
-<input type="text" name="otp">
-<button>Verify</button>
-</form>
-
+<h1>Admin Home</h1>
 </body>
 </html>

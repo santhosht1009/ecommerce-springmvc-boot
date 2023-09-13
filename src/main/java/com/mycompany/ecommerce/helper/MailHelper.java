@@ -55,10 +55,10 @@ public class MailHelper {
 		MimeMessageHelper messageHelper=new MimeMessageHelper(mimeMessage);
 
 		try {
-			messageHelper.setTo(admin.getAdminEmail());
+			messageHelper.setTo(admin.getEmail());
 			messageHelper.setFrom("E-Commerce");
 			messageHelper.setSubject("OTP Verification For Admin Login");
-			String body="<h1 style='color:blue'>Hello "+admin.getAdminName()+",<br>Your Otp is : "+admin.getOtp()+"</h1>";
+			String body="<h1 style='color:blue'>Hello "+admin.getName()+",<br>Your Otp is : "+admin.getOtp()+"</h1>";
 			messageHelper.setText(body,true);
 			mailSender.send(mimeMessage);
 		} catch (MessagingException e) {

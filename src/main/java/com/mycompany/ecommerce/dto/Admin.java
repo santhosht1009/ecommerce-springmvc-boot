@@ -18,9 +18,9 @@ public class Admin {
 	@GeneratedValue(generator = "customer_id")
 	@SequenceGenerator(name = "customer_id", initialValue = 111001, allocationSize = 1, sequenceName = "customer_id")
 	private int id;
-	private String adminName;
-	private String adminEmail;
-	private String adminPassword;
+	private String name;
+	private String email;
+	private String password;
 	private int otp;
 	
 	

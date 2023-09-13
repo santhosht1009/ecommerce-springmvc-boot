@@ -8,7 +8,7 @@
 </head>
 <body>
 	<h1>This is Admin Page</h1>
-	<form>
+	<form action="/admin/login" method="post">
 		<fieldset>
 			<legend>Login Here,</legend>
 			<table>

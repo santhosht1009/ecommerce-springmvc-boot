@@ -23,8 +23,8 @@ public class AdminDao {
 		
 	}
 	
-	public Admin findById(int adminid) {
-		Optional<Admin> opt=adminRepository.findById(adminid);
+	public Admin findById(int id) {
+		Optional<Admin> opt=adminRepository.findById(id);
 		if(opt.isPresent())
 		return opt.get();
 		else
