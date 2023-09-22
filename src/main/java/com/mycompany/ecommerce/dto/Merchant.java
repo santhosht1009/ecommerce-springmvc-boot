@@ -1,12 +1,16 @@
 package com.mycompany.ecommerce.dto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -28,22 +32,23 @@ public class Merchant {
 	private int id;
 	@Size(min = 5, message = "*Atleast Enter 5 Charecter")
 	private String name;
-	@Email(message = "*Email Format is Not Correct")
-	@NotEmpty(message = "must not be empty")
+	@Email(message = "*Enter Proper Format")
+	@NotEmpty(message = "*Must not be empty")
 	private String email;
-//	@Size(max = 10, message = "Number Should be 10 Digits")
-//	@NotEmpty(message = "number should not be empty")
 	@NotNull
-	@DecimalMin(value = "6000000000",message = "enter proper number")
-	@DecimalMax(value = "10000000000",message = "enter proper number")
+	@DecimalMin(value = "6000000000", message = "*Enter Proper Number")
+	@DecimalMax(value = "9999999999", message = "*Enter Proper Number")
 	private long mobile;
-	@Size(min=8,message = "*password should be min 8 characters")
+	@Size(min = 8, message = "*Minimum 8 Charecters")
 	private String password;
-	@NotEmpty(message = "select one gender")
+	@NotEmpty(message = "*Select atleast one gender")
 	private String gender;
-	@Past(message = "Date Must Not be Todays or Futures Date")
-	@NotNull(message = "not be empty")
+	@Past(message = "*Date Must Not be Todays or Futures Date")
+	@NotNull(message = "*Must not be empty")
 	private LocalDate dob;
 	private boolean status;
 	private int otp;
+
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	List<Product> products;
 }

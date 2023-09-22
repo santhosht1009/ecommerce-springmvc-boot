@@ -12,6 +12,7 @@ import com.mycompany.ecommerce.dao.CustomerDao;
 import com.mycompany.ecommerce.dao.MerchantDao;
 import com.mycompany.ecommerce.dto.Customer;
 import com.mycompany.ecommerce.dto.Merchant;
+import com.mycompany.ecommerce.helper.AES;
 import com.mycompany.ecommerce.helper.LoginHelper;
 import com.mycompany.ecommerce.helper.MailHelper;
 @Service
@@ -29,6 +30,8 @@ public class CustomerService {
 		if (customer1 == null && customer2 == null) {
 			int otp = new Random().nextInt(100000, 999999);
 			customer.setOtp(otp);
+		
+			customer.setPassword(AES.encrypt(customer.getPassword(), "123"));
 			customerDao.save(customer);
 			mailHelper.sendOtp(customer);
 			modelMap.put("id", customer.getId());
@@ -97,7 +100,7 @@ else
 		if(customer.isStatus())
 		{
 		
-		if(loginHelper.getPassword().equals(customer.getPassword())) {
+			if (AES.decrypt(customer.getPassword(), "123").equals(loginHelper.getPassword())) {
 			return "CustomerHome";
 		}else {
 			modelMap.put("neg", "Password is not matching");

@@ -8,5 +8,9 @@
 </head>
 <body>
 <h1>Customer Home</h1>
+<button>View Items List</button>
+<button>View All Order</button>
+<button>Edit Details</button>
+<button>Logout</button>
 </body>
 </html>

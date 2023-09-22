@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mycompany.ecommerce.helper.LoginHelper;
 import com.mycompany.ecommerce.service.AdminService;
 
+import jakarta.servlet.http.HttpSession;
+
 
 
 @Controller
@@ -26,14 +28,16 @@ public class AdminController {
 	}
 	
 	@PostMapping("/login")
-	public String login(LoginHelper loginHelper,ModelMap modelMap) {
+	public String login(LoginHelper loginHelper,ModelMap modelMap ) {
 		
 		return adminService.login(loginHelper,modelMap);
 	}
 	
 	@GetMapping("/verifyotp")
-	public String verifyOtp(@RequestParam int id,@RequestParam int otp,ModelMap modelMap) {
-	return adminService.verifyOtp(id,otp,modelMap);
+	public String verifyOtp(@RequestParam int id,@RequestParam int otp,@RequestParam String email ,ModelMap modelMap,HttpSession httpSession) {
+	return adminService.verifyOtp(id,otp,email,modelMap,httpSession);
 		
 	}
+	
+	
 }

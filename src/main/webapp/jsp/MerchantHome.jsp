@@ -8,5 +8,7 @@
 </head>
 <body>
 <h1>Merchant Home</h1>
+<a href="/merchant/addproduct"><button>Add Item</button></a>
+<button>View Items</button>
 </body>
 </html>

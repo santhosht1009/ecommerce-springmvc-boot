@@ -1,16 +1,24 @@
 package com.mycompany.ecommerce.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.ecommerce.dao.MerchantDao;
 import com.mycompany.ecommerce.dto.Customer;
 import com.mycompany.ecommerce.dto.Merchant;
+import com.mycompany.ecommerce.dto.Product;
+import com.mycompany.ecommerce.helper.AES;
 import com.mycompany.ecommerce.helper.LoginHelper;
 import com.mycompany.ecommerce.helper.MailHelper;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class MerchantService {
@@ -27,6 +35,7 @@ public String signup(Merchant merchant, ModelMap modelMap) {
 	if (merchant1 == null && merchant2 == null) {
 		int otp = new Random().nextInt(100000, 999999);
 		merchant.setOtp(otp);
+		merchant.setPassword(AES.encrypt(merchant.getPassword(), "123"));
 		merchantDao.save(merchant);
 		mailHelper.sendOtp(merchant);
 		modelMap.put("id", merchant.getId());
@@ -79,31 +88,49 @@ public String verifyOtp(int userid, int otp, ModelMap modelMap) {
 }
 
 
-public String login(LoginHelper loginHelper,ModelMap modelMap) {
+public String login(LoginHelper loginHelper,ModelMap modelMap, HttpSession session) {
 Merchant merchant=merchantDao.fetchByEmail(loginHelper.getEmail());
-if(merchant!=null) {
-	if(merchant.isStatus())
-	{
-	
-	if(loginHelper.getPassword().equals(merchant.getPassword())) {
-		return "MerchantHome";
-	}else {
-		modelMap.put("neg", "Password is not matching");
-		return "Merchant";
-	}}else
-	{
-		modelMap.put("neg", "Account is Not Verified! Otp Sent to Your Email to Verify");
-		mailHelper.sendOtp(merchant);
-		modelMap.put("id", merchant.getId());
-		return "VerifyOtp";
-	}
-		
-}else {
-	modelMap.put("neg", "Email is not Present");
+if (merchant == null) {
+	modelMap.put("neg", "Incorrect Email");
 	return "Merchant";
-	
+} else {
+	if (AES.decrypt(merchant.getPassword(), "123").equals(loginHelper.getPassword())) {
+		if (merchant.isStatus()) {
+			session.setMaxInactiveInterval(150);
+			session.setAttribute("merchant", merchant);
+			modelMap.put("pos", "Login Success");
+			return "MerchantHome";
+		} else {
+			modelMap.put("neg", "Verify Your OTP First");
+			return "Merchant";
+		}
+	} else {
+		modelMap.put("neg", "Incorrect Password");
+		return "Merchant";
+	}
 }
 	
+}
+
+
+public String addProduct(Product product, MultipartFile pic, ModelMap map, Merchant merchant,HttpSession session) throws IOException {
+	byte[] picture = new byte[pic.getInputStream().available()];
+	pic.getInputStream().read(picture);
+
+	product.setPicture(picture);
+	List<Product> list = merchant.getProducts();
+
+	if (list == null)
+		list = new ArrayList<Product>();
+
+	list.add(product);
+	merchant.setProducts(list);
+
+	merchantDao.save(merchant);
+	session.setMaxInactiveInterval(150);
+	session.setAttribute("merchant", merchant);
+	map.put("pos", "Product Added Success");
+	return "MerchantHome";
 }
 
 }

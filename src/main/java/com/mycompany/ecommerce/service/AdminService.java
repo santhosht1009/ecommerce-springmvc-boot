@@ -12,6 +12,8 @@ import com.mycompany.ecommerce.dto.Customer;
 import com.mycompany.ecommerce.helper.LoginHelper;
 import com.mycompany.ecommerce.helper.MailHelper;
 
+import jakarta.servlet.http.HttpSession;
+
 @Service
 public class AdminService {
 @Autowired
@@ -31,6 +33,7 @@ MailHelper mailHelper;
 			adminDao.save(admin);
 			mailHelper.sendOtp(admin);
 			modelMap.put("id", admin.getId());
+			modelMap.put("email", admin.getEmail());
 			return "VerifyOtp2";
 			}else {
 			modelMap.put("neg", "Password is not matching");
@@ -46,7 +49,7 @@ MailHelper mailHelper;
 	}
 
 
-	public String verifyOtp(int id, int otp, ModelMap modelMap) {
+	public String verifyOtp(int id, int otp,String email, ModelMap modelMap,HttpSession httpSession) {
 		Admin admin=adminDao.findById(id);
 		
 		if(admin==null)
@@ -57,7 +60,7 @@ MailHelper mailHelper;
 		{
 				if(admin.getOtp()==otp)
 				{
-				
+				httpSession.setAttribute("admin", email);
 					return "AdminHome";
 				}else
 				{

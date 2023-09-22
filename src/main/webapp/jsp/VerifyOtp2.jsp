@@ -11,6 +11,7 @@
 <h1 style="color: red">${neg}</h1>
 <form action="/admin/verifyotp">
 <input type="hidden" value=${id} name="id">
+<input type="hidden" value=${email} name="email">
 <input type="text" name="otp">
 <button>Verify</button>
 </form>
